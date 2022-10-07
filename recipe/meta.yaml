@@ -235,6 +235,8 @@ about:
   license_family: GPL
   license_file: COPYING3
   summary: Fortran compiler and libraries from the GNU Compiler Collection
+  dev_url: https://gcc.gnu.org/git/?p=gcc.git;a=tree
+  doc_url: https://gcc.gnu.org/onlinedocs/
 
 extra:
   recipe-maintainers:
