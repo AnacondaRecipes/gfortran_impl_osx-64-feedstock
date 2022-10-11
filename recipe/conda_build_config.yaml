@@ -11,6 +11,6 @@ CONDA_BUILD_SYSROOT:           # [osx]
   - /opt/MacOSX10.10.sdk       # [osx and x86_64]
   - /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk  # [osx and arm64]
 gfortran_version:
-  - 11.2.0                     # [osx]
+  - 11.3.0                     # [osx]
   - 0.0.0                      # [not osx]
 
