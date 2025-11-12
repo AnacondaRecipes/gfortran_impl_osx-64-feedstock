@@ -3,25 +3,27 @@
 {% set version_suffix = "" %}
 
 {% if gfortran_version is undefined %}
-{% set gfortran_version = "11.3.0" %}
+{% set gfortran_version = "14.3.0" %}
 {% endif %}
 
 {% set libgfortran_version = "5.0.0" %}
 {% set max_libgfortran_version = "6.0.0.a0" %}
 {% set libgfortran_major_version = "5" %}
-{% set url = "https://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.gz  " %}
-{% set source_sha = "98438e6cc7294298b474cf0da7655d9a8c8b796421bb0210531c294a950374ed" %}
 
 package:
   name: gfortran_impl_{{ target_platform }}
   version: {{ gfortran_version }}{{ version_suffix }}
 
 source:
-  url: {{ url }}
-  sha256: {{ source_sha }}
+  url:
+  - https://ftp.gnu.org/gnu/gcc/gcc-{{ gfortran_version }}/gcc-{{ gfortran_version }}.tar.gz
+  - https://mirrors.ocf.berkeley.edu/gnu/gcc/gcc-{{ gfortran_version }}/gcc-{{ gfortran_version }}.tar.gz
+  sha256: ace8b8b0dbfe6abfc22f821cb093e195aa5498b7ccf7cd23e4424b9f14afed22
   patches:
-    - patches/gcc-11.3.0-arm.diff        # [target_platform == "osx-arm64"]
-    - patches/gcc-11.3.0-arm-cross.diff  # [target_platform == "osx-64"]
+    # all patches from https://github.com/Homebrew/formula-patches/tree/698885df7f624d0ce15bceb79a4d9760a473b502/gcc
+    # and edited with `s/-Wc,-nodefaultrpaths/-nodefaultrpaths`.
+    # in case of several patches per version, use newest one
+    - patches/gcc-{{ gfortran_version }}.diff  # [target_platform == "osx-arm64"]
 
 build:
   number: {{ build_number }}
@@ -29,6 +31,7 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - make
@@ -110,6 +113,7 @@ outputs:
         - '*'
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - make
@@ -198,12 +202,8 @@ outputs:
       # Including libgcc_s for the time
       # being. This will need to be broken
       # out in the long term.
-      - lib/libgcc_s.1.dylib            # [target_platform == "osx-64" and gfortran_version == "11.3.0"]
-      - lib/libgcc_s.1.1.dylib          # [target_platform == "osx-arm64" or gfortran_version == "11.3.0"]
-      - lib/libgcc_s_ppc64.1.dylib      # [target_platform == "osx-64"]
-      - lib/libgcc_s_x86_64.1.dylib     # [target_platform == "osx-64"]
-      - lib/libgcc_s_x86_64.1.1.dylib   # [target_platform == "osx-64"]
-      - lib/libgcc_s.dylib              # [target_platform == "osx-arm64" or gfortran_version == "11.3.0"]
+      - lib/libgcc_s.1.1.dylib
+      - lib/libgcc_s.dylib
 
     requirements:
       run:
@@ -223,11 +223,7 @@ outputs:
         - test -f "${PREFIX}/lib/libquadmath.dylib"
         - test -f "${PREFIX}/lib/libquadmath.0.dylib"
 
-        - test -f "${PREFIX}/lib/libgcc_s.1.dylib"          # [target_platform == "osx-64" and gfortran_version != "11.3.0"]
-        - test -f "${PREFIX}/lib/libgcc_s_ppc64.1.dylib"    # [target_platform == "osx-64" and gfortran_version != "11.3.0"]
-        - test -f "${PREFIX}/lib/libgcc_s_x86_64.1.dylib"   # [target_platform == "osx-64" and gfortran_version != "11.3.0"]
-
-        - test -f "${PREFIX}/lib/libgcc_s.1.1.dylib"        # [target_platform == "osx-arm64" or gfortran_version == "11.3.0"]
+        - test -f "${PREFIX}/lib/libgcc_s.1.1.dylib"
 
 about:
   home: https://gcc.gnu.org/
