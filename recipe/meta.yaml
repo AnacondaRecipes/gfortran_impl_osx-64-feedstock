@@ -11,7 +11,7 @@
 {% set libgfortran_major_version = "5" %}
 
 package:
-  name: gfortran_impl_{{ target_platform }}
+  name: gfortran_impl_{{ target_platform }}-split
   version: {{ gfortran_version }}{{ version_suffix }}
 
 source:
@@ -42,15 +42,14 @@ requirements:
     - libtool   # [unix]
     - automake
     - autoconf
-    - patch     # [not win]
   host:
-    - libiconv
-    - zlib
-    - gmp
-    - mpfr
-    - isl
-    - mpc
-    - zstd
+    - libiconv {{ libiconv }}
+    - zlib {{ zlib }}
+    - gmp {{ gmp }}
+    - mpfr {{ mpfr }}
+    - isl {{ isl }}
+    - mpc {{ mpc }}
+    - zstd {{ zstd }}
 test:
   files:
     - hello.f90
@@ -125,13 +124,13 @@ outputs:
         - automake
         - autoconf
       host:
-        - libiconv
-        - zlib
-        - gmp
-        - mpfr
-        - isl
-        - mpc
-        - zstd
+        - libiconv {{ libiconv }}
+        - zlib {{ zlib }}
+        - gmp {{ gmp }}
+        - mpfr {{ mpfr }}
+        - isl {{ isl }}
+        - mpc {{ mpc }}
+        - zstd {{ zstd }}
       run:
         - libgfortran{{ libgfortran_major_version }} >={{ gfortran_version }}{{ version_suffix }}
         - libgfortran-devel_{{ target_platform }} {{ gfortran_version }}{{ version_suffix }}
