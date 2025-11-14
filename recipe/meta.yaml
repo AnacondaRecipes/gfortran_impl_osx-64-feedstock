@@ -31,7 +31,7 @@ source:
 build:
   number: {{ build_number }}
   # we don't need to cross-compile to osx from anything but osx or linux-64
-  skip: true  # [not (osx or linux64)]
+  skip: true  # [not osx]
 
 requirements:
   build:
