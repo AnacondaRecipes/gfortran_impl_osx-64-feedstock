@@ -117,6 +117,13 @@ outputs:
     build:
       activate_in_script: True
       skip: True  # [win]
+      missing_dso_whitelist:        # [osx]
+        - '$RPATH/libz.1.dylib'     # [osx]
+        - '$RPATH/libiconv.2.dylib' # [osx]
+        - '$RPATH/libisl.22.dylib'  # [osx]
+        - '$RPATH/libmpc.3.dylib'   # [osx]
+        - '$RPATH/libmpfr.6.dylib'  # [osx]
+        - '$RPATH/libgmp.10.dylib'  # [osx]
     requirements:
       build:
         - {{ stdlib('c') }}
