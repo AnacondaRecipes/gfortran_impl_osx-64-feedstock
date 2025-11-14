@@ -147,7 +147,7 @@ outputs:
         - gmp
         - zlib
         - libiconv
-        - cctools_{{ cross_target_platform }}
+        - cctools  # _{{ cross_target_platform }}
         - clang
     files:
       - bin/gfortran   # [target_platform == cross_target_platform]
