@@ -154,7 +154,8 @@ outputs:
         - gmp
         - zlib
         - libiconv
-        - cctools  # _{{ cross_target_platform }}
+        # our cctools_{{ cross_target_platform }} is out of date
+        - cctools
         - clang
     files:
       - bin/gfortran   # [target_platform == cross_target_platform]
