@@ -49,12 +49,12 @@ requirements:
     - mpc       # [build_platform != target_platform]
     - coreutils  # [osx]
   host:
-    - libiconv
-    - zlib
-    - gmp
-    - mpfr
-    - isl
-    - mpc
+    - libiconv {{ libiconv }}
+    - zlib {{ zlib }}
+    - gmp {{ gmp }}
+    - mpfr {{ mpfr }}
+    - isl {{ isl }}
+    - mpc {{ mpc }}
 
 test:
   files:
@@ -139,12 +139,12 @@ outputs:
         - isl       # [build_platform != target_platform]
         - mpc       # [build_platform != target_platform]
       host:
-        - libiconv
-        - zlib
-        - gmp
-        - mpfr
-        - isl
-        - mpc
+        - libiconv {{ libiconv }}
+        - zlib {{ zlib }}
+        - gmp {{ gmp }}
+        - mpfr {{ mpfr }}
+        - isl {{ isl }}
+        - mpc {{ mpc }}
       run:
         - libgfortran{{ libgfortran_soversion }} >={{ gfortran_version }}  # [target_platform == cross_target_platform]
         - libgfortran-devel_{{ target_platform }} {{ gfortran_version }}       # [target_platform == cross_target_platform]
