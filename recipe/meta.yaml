@@ -116,7 +116,7 @@ outputs:
     version: {{ gfortran_version }}
     build:
       activate_in_script: True
-      skip: True  # [win]
+      skip: True  # [not osx]
       missing_dso_whitelist:        # [osx]
         - '$RPATH/libz.1.dylib'     # [osx]
         - '$RPATH/libiconv.2.dylib' # [osx]
