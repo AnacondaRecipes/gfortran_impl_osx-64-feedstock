@@ -31,7 +31,7 @@ source:
 build:
   number: {{ build_number }}
   # we don't need to cross-compile to osx from anything but osx or linux-64
-  skip: true  # [not (osx or linux64)]
+  skip: true  # [not osx]
 
 requirements:
   build:
@@ -49,12 +49,12 @@ requirements:
     - mpc       # [build_platform != target_platform]
     - coreutils  # [osx]
   host:
-    - libiconv
-    - zlib
-    - gmp
-    - mpfr
-    - isl
-    - mpc
+    - libiconv {{ libiconv }}
+    - zlib {{ zlib }}
+    - gmp {{ gmp }}
+    - mpfr {{ mpfr }}
+    - isl {{ isl }}
+    - mpc {{ mpc }}
 
 test:
   files:
@@ -116,7 +116,14 @@ outputs:
     version: {{ gfortran_version }}
     build:
       activate_in_script: True
-      skip: True  # [win]
+      skip: True  # [not osx]
+      missing_dso_whitelist:        # [osx]
+        - '$RPATH/libz.1.dylib'     # [osx]
+        - '$RPATH/libiconv.2.dylib' # [osx]
+        - '$RPATH/libisl.22.dylib'  # [osx]
+        - '$RPATH/libmpc.3.dylib'   # [osx]
+        - '$RPATH/libmpfr.6.dylib'  # [osx]
+        - '$RPATH/libgmp.10.dylib'  # [osx]
     requirements:
       build:
         - {{ stdlib('c') }}
@@ -132,12 +139,12 @@ outputs:
         - isl       # [build_platform != target_platform]
         - mpc       # [build_platform != target_platform]
       host:
-        - libiconv
-        - zlib
-        - gmp
-        - mpfr
-        - isl
-        - mpc
+        - libiconv {{ libiconv }}
+        - zlib {{ zlib }}
+        - gmp {{ gmp }}
+        - mpfr {{ mpfr }}
+        - isl {{ isl }}
+        - mpc {{ mpc }}
       run:
         - libgfortran{{ libgfortran_soversion }} >={{ gfortran_version }}  # [target_platform == cross_target_platform]
         - libgfortran-devel_{{ target_platform }} {{ gfortran_version }}       # [target_platform == cross_target_platform]
@@ -147,7 +154,8 @@ outputs:
         - gmp
         - zlib
         - libiconv
-        - cctools_{{ cross_target_platform }}
+        # our cctools_{{ cross_target_platform }} is out of date
+        - cctools
         - clang
     files:
       - bin/gfortran   # [target_platform == cross_target_platform]
@@ -238,11 +246,14 @@ outputs:
         - test -f "${PREFIX}/lib/libgcc_s.1.1.dylib"
 
 about:
-  home: http://gcc.gnu.org/
+  home: https://gcc.gnu.org/
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
   license_file: COPYING3
   summary: Fortran compiler and libraries from the GNU Compiler Collection
+  description: Fortran compiler and libraries from the GNU Compiler Collection
+  doc_url: https://gcc.gnu.org/onlinedocs/
+  dev_url: https://gcc.gnu.org/git/gcc.git
 
 extra:
   feedstock-name: gfortran_impl_osx-64
