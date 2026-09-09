@@ -6,7 +6,7 @@
 {% endif %}
 
 # only reset build_number to 0 if _all_ output versions are increased as well
-{% set build_number = 1 %}
+{% set build_number = 2 %}
 
 package:
   name: gfortran_impl_{{ cross_target_platform }}
@@ -120,7 +120,7 @@ outputs:
       missing_dso_whitelist:        # [osx]
         - '$RPATH/libz.1.dylib'     # [osx]
         - '$RPATH/libiconv.2.dylib' # [osx]
-        - '$RPATH/libisl.22.dylib'  # [osx]
+        - '$RPATH/libisl.23.dylib'  # [osx]
         - '$RPATH/libmpc.3.dylib'   # [osx]
         - '$RPATH/libmpfr.6.dylib'  # [osx]
         - '$RPATH/libgmp.10.dylib'  # [osx]
